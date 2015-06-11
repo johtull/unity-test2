@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerControl : MonoBehaviour {
 	public float speed = 6.0F;
-	public float jumpSpeed = 80.0F;
+	public float jumpSpeed = 20.0F;
 	public float gravity = 20.0F;
 	private Vector3 moveDirection = Vector3.zero;
 	void Update() {
