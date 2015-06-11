@@ -188,7 +188,7 @@ MonoBehaviour:
   phi: 45
   theta: 90
   di: 20
-  gamemode: 1
+  gamemode: 0
 --- !u!1 &1066292335
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,6 +404,8 @@ MonoBehaviour:
   speed: 6
   jumpSpeed: 20
   gravity: 20
+  jumping: 0
+  jumping2: 0
 --- !u!114 &1602450474
 MonoBehaviour:
   m_ObjectHideFlags: 0
