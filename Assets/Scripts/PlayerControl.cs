@@ -13,15 +13,19 @@ public class PlayerControl : MonoBehaviour {
 	private Vector3 moveDirection = Vector3.zero;
 	void Update() {
 		CharacterController controller = GetComponent<CharacterController>();
+		if(!strafe)
+		{
+		if(Input.GetKey("a"))
+			transform.Rotate(0, Time.deltaTime * -90, 0);
+		else if(Input.GetKey("d"))
+			transform.Rotate(0, Time.deltaTime * 90, 0);
+		}
+
 		if (controller.isGrounded) {
 			if(strafe)
 			moveDirection = new Vector3(Input.GetAxis("NewHor"), 0, Input.GetAxis("NewVert"));
 			else
 			{
-				if(Input.GetKey("a"))
-					transform.Rotate(0, Time.deltaTime * -90, 0);
-				else if(Input.GetKey("d"))
-					transform.Rotate(0, Time.deltaTime * 90, 0);
 				moveDirection = new Vector3(0, 0, Input.GetAxis("NewVert"));
 			}
 

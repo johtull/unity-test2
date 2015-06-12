@@ -37,7 +37,8 @@ public class CameraControl : MonoBehaviour {
 			targetLook = targetObject;
 			transform.LookAt(targetLook.transform.position);
 		}
-
+		else
+			transform.LookAt(targetLook.transform.position);
 
 		if(gamemode == 0)
 		{
