@@ -3,12 +3,13 @@ using System.Collections;
 
 public class PlayerControl : MonoBehaviour {
 	public float speed = 6.0F;
-	public float jumpSpeed = 20.0F;
-	public float gravity = 20.0F;
+	public float jumpSpeed = 100.0F;
+	public float gravity = 200.0F;
 
 	public bool jumping = false;
 	public bool jumping2 = false;
 	public bool strafe = false;
+	public float turnSpeed = 180.0F;
 
 	private Vector3 moveDirection = Vector3.zero;
 	private Vector3 crouch = Vector3.zero;
@@ -23,10 +24,10 @@ public class PlayerControl : MonoBehaviour {
 
 		if(!strafe)
 		{
-		if(Input.GetKey("a"))
-			transform.Rotate(0, Time.deltaTime * -90, 0);
-		else if(Input.GetKey("d"))
-			transform.Rotate(0, Time.deltaTime * 90, 0);
+			if(Input.GetKey("a"))
+				transform.Rotate(0, Time.deltaTime * -turnSpeed, 0);
+			else if(Input.GetKey("d"))
+				transform.Rotate(0, Time.deltaTime * turnSpeed, 0);
 		}
 
 		if (controller.isGrounded) {
