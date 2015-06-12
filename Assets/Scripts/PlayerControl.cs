@@ -11,8 +11,16 @@ public class PlayerControl : MonoBehaviour {
 	public bool strafe = false;
 
 	private Vector3 moveDirection = Vector3.zero;
+	private Vector3 crouch = Vector3.zero;
 	void Update() {
 		CharacterController controller = GetComponent<CharacterController>();
+
+		/*if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) {
+			crouch = new Vector3(0, 20, 0);
+			controller.Move(crouch * Time.deltaTime);
+			print("hi" + crouch);
+		}*/
+
 		if(!strafe)
 		{
 		if(Input.GetKey("a"))
