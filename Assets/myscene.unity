@@ -185,10 +185,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetObject: {fileID: 1602450468}
-  phi: 45
-  theta: 90
-  di: 20
+  targetLook: {fileID: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  phi: 90
+  theta: 270
+  di: 30
   gamemode: 0
+  focus: 0
+  pan: 0
 --- !u!1 &1066292335
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,11 +405,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0460d74df8d59174eb6f278c5bf6c37c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 16
   jumpSpeed: 20
   gravity: 20
   jumping: 0
   jumping2: 0
+  strafe: 0
 --- !u!114 &1602450474
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,12 +4,16 @@ using System.Collections;
 public class CameraControl : MonoBehaviour {
 
 	public GameObject targetObject;
+	public GameObject targetLook;
+	public Vector3 targetPosition;
 
 	public float phi= 45;
 	public float theta = 90;
 	public float di = 20; //distance
 
 	public int gamemode = 0;
+	public bool focus = false;
+	public bool pan = false;
 	// Use this for initialization
 	void Start () {
 		 //di = 20; //distance
@@ -27,7 +31,13 @@ public class CameraControl : MonoBehaviour {
 
 		transform.position = new Vector3(tx, ty, tz);
 		//transform.position = new Vector3(targetObject.transform.position.x - 10, targetObject.transform.position.y + 10, targetObject.transform.position.z - 10);
-		transform.LookAt(targetObject.transform.position);
+		//transform.LookAt(targetLook.transform.position);
+		if(!focus)
+		{
+			targetLook = targetObject;
+			transform.LookAt(targetLook.transform.position);
+		}
+
 
 		if(gamemode == 0)
 		{
@@ -44,25 +54,15 @@ public class CameraControl : MonoBehaviour {
 
 		else if(gamemode == 1)
 		{
-			if(Input.GetAxis("Mouse X")<0){
-				theta -=1f;
 
-				print("Mouse moved left");
-			}
-			if(Input.GetAxis("Mouse X")>0){
-				theta +=1f;
-
-				print("Mouse moved right");
-			}
-			if(Input.GetAxis("Mouse Y")<0){
-				phi -=1f;
-				print("Mouse moved down"); 
-			}
-			if(Input.GetAxis("Mouse Y")>0){
-				phi +=1f;
-				print("Mouse moved up");
-			}
-
+			if(Input.GetKey("up"))
+				transform.Rotate(1,0,0);
+			if(Input.GetKey("down"))
+				transform.Rotate(-1,0,0);
+			if(Input.GetKey("right"))
+				transform.Rotate(0,1,0);
+			if(Input.GetKey("left"))
+				transform.Rotate(0,-1,0);
 		}
 
 	}
