@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Globals {
+//namespace Globals {
 
-	public static class testGlobs{
-		public static int gameMode;
+	public class GlobalVars : MonoBehaviour{
+		public static int gameMode = 0;
 	}
+	/*
+	public static class GlobalVars : MonoBehaviour{
+		public static int gameMode = 0;
+	}*/
 
-}
+//}

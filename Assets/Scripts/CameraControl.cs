@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraControl : MonoBehaviour {
+public class CameraControl : GlobalVars {
 
 	public GameObject targetObject;
 	public GameObject targetLook;
@@ -11,7 +11,7 @@ public class CameraControl : MonoBehaviour {
 	public float theta = 90;
 	public float di = 20; //distance
 
-	public int gamemode = 0;
+	//public int gamemode = gameMode;
 	public bool focus = false;
 	public bool pan = false;
 	// Use this for initialization
@@ -40,7 +40,7 @@ public class CameraControl : MonoBehaviour {
 		else
 			transform.LookAt(targetLook.transform.position);
 
-		if(gamemode == 0)
+		if(gameMode == 0)
 		{
 			if(Input.GetKey("up"))
 				phi -=1f;
@@ -50,10 +50,13 @@ public class CameraControl : MonoBehaviour {
 				theta -=1f;
 			if(Input.GetKey("left"))
 				theta +=1f;
+
+			if(Input.GetKey("q"))
+				gameMode = 1;
 			
 		}
 
-		else if(gamemode == 1)
+		else if(gameMode == 1)
 		{
 
 			if(Input.GetKey("up"))
