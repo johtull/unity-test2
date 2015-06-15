@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerControl : GlobalVars {
+public class PlayerControl : MonoBehaviour {
 	public float speed = 6.0F;
 	public float jumpSpeed = 100.0F;
 	public float gravity = 200.0F;
@@ -73,8 +73,12 @@ public class PlayerControl : GlobalVars {
 			{
 				print("hurrduururur");
 				Vector3 forward = transform.TransformDirection(Vector3.forward) * 100;
-				print(hit.transform.gameObject.name);
-				//targetLook = hit.transform.gameObject;
+				GameObject targetLook = hit.transform.gameObject;
+				print(targetLook.tag.IndexOf("StaticResource") != -1);
+				if(targetLook.tag.Contains("StaticResource")) {
+					print(Globals.skillFish.getLevel());
+				}
+
 			}
 		}
 

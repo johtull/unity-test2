@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class CameraControl : GlobalVars {
+public class CameraControl : MonoBehaviour {
 
 	public GameObject targetObject;
 	public GameObject targetLook;

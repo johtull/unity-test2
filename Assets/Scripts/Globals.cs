@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//namespace Globals {
+public class Globals : MonoBehaviour {
 
-	public class GlobalVars : MonoBehaviour{
-		public static int gameMode = 0;
+	public static Skill skillFish;
+
+	// Use this for initialization
+	void Start () {
+		skillFish = new Skill (100000, "fishing");
 	}
-	/*
-	public static class GlobalVars : MonoBehaviour{
-		public static int gameMode = 0;
-	}*/
-
-//}
+	
+	// Update is called once per frame
+	void Update () {
+	
+	}
+}
