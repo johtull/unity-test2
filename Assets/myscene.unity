@@ -262,11 +262,20 @@ MonoBehaviour:
   targetObject: {fileID: 1602450468}
   targetLook: {fileID: 290112257}
   targetPosition: {x: 0, y: 0, z: 0}
+  touchInputMask:
+    serializedVersion: 2
+    m_Bits: 256
   phi: 90
   theta: 270
   di: 30
-  gamemode: 0
+  dx: 0
+  dz: 0
+  dy: 0
+  tx: 0
+  ty: 0
+  tz: 0
   focus: 0
+  rotate: 0
   pan: 0
 --- !u!1 &832868238
 GameObject:
@@ -569,6 +578,9 @@ MonoBehaviour:
   speed: 16
   jumpSpeed: 100
   gravity: 200
+  touchInputMask:
+    serializedVersion: 2
+    m_Bits: 256
   jumping: 0
   jumping2: 0
   strafe: 0

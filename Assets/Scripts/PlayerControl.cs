@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerControl : MonoBehaviour {
+public class PlayerControl : GlobalVars {
 	public float speed = 6.0F;
 	public float jumpSpeed = 100.0F;
 	public float gravity = 200.0F;
+	public LayerMask touchInputMask;
 
 	public bool jumping = false;
 	public bool jumping2 = false;
@@ -15,6 +16,9 @@ public class PlayerControl : MonoBehaviour {
 	private Vector3 crouch = Vector3.zero;
 	void Update() {
 		CharacterController controller = GetComponent<CharacterController>();
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hit;
+		//print (gameMode);
 
 		/*if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) {
 			crouch = new Vector3(0, 20, 0);
@@ -60,5 +64,20 @@ public class PlayerControl : MonoBehaviour {
 		}
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
+
+
+		if(Input.GetMouseButtonDown(0))
+		{
+			//Find where the mouse is
+			if(Physics.Raycast(ray,out hit, touchInputMask))
+			{
+				print("hurrduururur");
+				Vector3 forward = transform.TransformDirection(Vector3.forward) * 100;
+				print(hit.transform.gameObject.name);
+				//targetLook = hit.transform.gameObject;
+			}
+		}
+
+
 	}
 }
