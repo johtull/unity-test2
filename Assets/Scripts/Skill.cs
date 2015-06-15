@@ -44,28 +44,10 @@ public class Skill : MonoBehaviour {
 		experience -= xp;
 	}
 
-	public bool canUse(string ab) {
-		int skillLevel;
-		try {
-			skillLevel = int.Parse(abilities[ab].ToString());
-		}catch(System.NullReferenceException) {
-			return false;
-		}
-		return (getLevel () - skillLevel >= 0);
-	}
-
 	// Experience = Level^3 * 10
 	// Level = experience^(1/3) / 10^(1/3)
 	public int getLevel() {
 		return (int)((float)System.Math.Pow(experience, (1.0)/(3.0)) / (float)System.Math.Pow(10, (1.0)/(3.0)));
-	}
-
-	public int getSpotLevel(string spt) {
-		try {
-			return int.Parse(abilities[spt].ToString());
-		}catch(System.NullReferenceException) {
-			return -1;
-		}
 	}
 
 	// load skills from flat file

@@ -65,20 +65,20 @@ public class PlayerControl : MonoBehaviour {
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
 
-		// left click
-		if(Input.GetMouseButtonDown(0))	{
+
+		if(Input.GetMouseButtonDown(0))
+		{
 			//Find where the mouse is
-			if(Physics.Raycast(ray,out hit, touchInputMask)) {
+			if(Physics.Raycast(ray,out hit, touchInputMask))
+			{
+				print("hurrduururur");
 				Vector3 forward = transform.TransformDirection(Vector3.forward) * 100;
 				GameObject targetLook = hit.transform.gameObject;
-
+				print(targetLook.tag.IndexOf("StaticResource") != -1);
 				if(targetLook.tag.Contains("StaticResource")) {
-					string mySkillName = targetLook.tag.Substring(14);
-					print("Resource Clicked: " + targetLook.name);
-					print("Your level: " + ((Skill)Globals.skills[mySkillName]).getLevel());
-					print("Spot level: " + ((Skill)Globals.skills[mySkillName]).getSpotLevel(targetLook.name));
-					print("canUse: " + ((Skill)Globals.skills[mySkillName]).canUse(targetLook.name));
+					print(Globals.skillFish.getLevel());
 				}
+
 			}
 		}
 
