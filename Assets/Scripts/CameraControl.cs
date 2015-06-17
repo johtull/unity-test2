@@ -253,7 +253,7 @@ public class CameraControl : MonoBehaviour {
 		{
 			
 			float rotX = (mouseY - Input.mousePosition.y) * easeFactor * Time.deltaTime;
-			phi += rotX;
+			phi -= rotX;
 		}
 		}
 		

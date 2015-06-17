@@ -762,6 +762,7 @@ MonoBehaviour:
   jumping: 0
   jumping2: 0
   strafe: 0
+  running: 0
   turnSpeed: 180
 --- !u!114 &1602450474
 MonoBehaviour:

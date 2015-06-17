@@ -10,6 +10,7 @@ public class PlayerControl : MonoBehaviour {
 	public bool jumping = false;
 	public bool jumping2 = false;
 	public bool strafe = false;
+	public bool running = false;
 	public float turnSpeed = 180.0F;
 
 	private Vector3 moveDirection = Vector3.zero;
@@ -19,6 +20,16 @@ public class PlayerControl : MonoBehaviour {
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
 		//print (gameMode);
+
+		if(running)
+			speed = 15;
+		else
+			speed = 6;
+
+		if(Input.GetKeyDown("z") && !running)
+			running = true;
+		else if(Input.GetKeyDown("z") && running)
+			running = false;
 
 		/*if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) {
 			crouch = new Vector3(0, 20, 0);
@@ -58,7 +69,6 @@ public class PlayerControl : MonoBehaviour {
 				moveDirection *= speed;
 				moveDirection.y = jumpSpeed;
 				jumping2 = true;
-				print ("VDVD");
 			}
 			
 		}
