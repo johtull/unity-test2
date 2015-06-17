@@ -84,11 +84,12 @@ public class PlayerControl : MonoBehaviour {
 				if(targetLook.tag.Contains("StaticResource")) {
 					string mySkillName = targetLook.tag.Substring(14);
 					print("Resource Clicked: " + targetLook.name);
-					print("Your level: " + ((Skill)Globals.skills[mySkillName]).getLevel());
-					print("Spot level: " + ((Skill)Globals.skills[mySkillName]).getSpotLevel(targetLook.name));
-					print("canUse: " + ((Skill)Globals.skills[mySkillName]).canUse(targetLook.name));
+					print("test: " + ((Skill)Globals.skills[mySkillName]).test());
+					//print("Your level: " + ((Skill)Globals.skills[mySkillName]).getLevel());
+					//print("Spot level: " + ((Skill)Globals.skills[mySkillName]).getSpotLevel(targetLook.name));
+					//print("canUse: " + ((Skill)Globals.skills[mySkillName]).canUse(targetLook.name));
 				}
-
+				
 			}
 		}
 
