@@ -13,6 +13,7 @@ public class CameraControl : MonoBehaviour {
 	public float phi= 45;
 	public float theta = 90;
 	public float di = 20; //distance
+	public float zoomSpeed = 1;
 
 	public float dx;
 	public float dz;
@@ -30,7 +31,7 @@ public class CameraControl : MonoBehaviour {
 	public bool pan = false;
 	// Use this for initialization
 	void Start () {
-		 
+		targetLook = targetObject;
 	}
 	
 	// Update is called once per frame
@@ -40,6 +41,9 @@ public class CameraControl : MonoBehaviour {
 
 		//mouseX=0;
 		//mouseY=0;
+		//if(Input.GetAxis("Mouse ScrollWheel"))
+			di -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
+
 
 		if(Input.GetKeyDown ("c") && !pan)
 		{
@@ -58,6 +62,20 @@ public class CameraControl : MonoBehaviour {
 		   rotate = true;
 		else
 		   rotate = false;
+
+		if(Input.GetKeyDown ("x"))
+		{
+			theta = targetObject.transform.eulerAngles.y - 90;
+			dx = di*Mathf.Sin(phi*3.14f/180f)*Mathf.Cos(theta*3.14f/180f);
+			dz = di*Mathf.Sin(phi*3.14f/180f)*Mathf.Sin(theta*3.14f/180f);
+			dy = di*Mathf.Cos(phi*3.14f/180f);
+			tx = targetObject.transform.position.x - dx;
+			ty = targetObject.transform.position.y + dy;
+			tz = targetObject.transform.position.z + dz;
+			transform.position = new Vector3(tx, ty, tz);
+			targetLook = targetObject;
+			mainCam.gameObject.transform.LookAt(targetLook.transform.position);
+		}
 		
 		//transform.position = new Vector3(targetObject.transform.position.x - 10, targetObject.transform.position.y + 10, targetObject.transform.position.z - 10);
 		//transform.LookAt(targetLook.transform.position);
@@ -85,10 +103,10 @@ public class CameraControl : MonoBehaviour {
 			ty = targetObject.transform.position.y + dy;
 			tz = targetObject.transform.position.z + dz;
 			transform.position = new Vector3(tx, ty, tz);
-			targetLook = targetObject;
-			mainCam.gameObject.transform.LookAt(targetLook.transform.position);
+			//targetLook = targetObject;
+			//mainCam.gameObject.transform.LookAt(targetLook.transform.position);
 
-
+			mousePan();
 		}
 		else
 		{
@@ -101,7 +119,7 @@ public class CameraControl : MonoBehaviour {
 			tz = targetObject.transform.position.z + dz;
 			transform.position = new Vector3(tx, ty, tz);
 
-
+			mousePan();
 			//transform.LookAt(targetLook.transform.position);
 		}
 		//mouseMove ();
@@ -189,7 +207,8 @@ public class CameraControl : MonoBehaviour {
 			if(Input.GetKeyDown("q"))
 				gameMode = 0;
 		}*/
-
+		if(!rotate)
+		mainCam.gameObject.transform.LookAt(targetLook.transform.position);
 	}
 
 	public void mouseMove()
@@ -216,5 +235,29 @@ public class CameraControl : MonoBehaviour {
 		}
 		
 	}
+
+	public void mousePan()
+	{
+		float easeFactor = 10f;
+		if(Input.GetMouseButton(2))
+		{
+			//Horizontal
+			if(Input.mousePosition.x != mouseX)
+		{
+			float rotY = (Input.mousePosition.x - mouseX) * easeFactor * Time.deltaTime;
+			theta += rotY;
+		}
+		
+		//Vertical
+		if(Input.mousePosition.y != mouseY)
+		{
+			
+			float rotX = (mouseY - Input.mousePosition.y) * easeFactor * Time.deltaTime;
+			phi += rotX;
+		}
+		}
+		
+	}
+
 
 }
