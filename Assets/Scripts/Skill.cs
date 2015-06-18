@@ -44,7 +44,7 @@ public class Skill : MonoBehaviour {
 	}
 
 	public string test() {
-		Globals.select ("items", 118);
+		//Globals.select ("items", 118);
 		return "hi";
 	}
 

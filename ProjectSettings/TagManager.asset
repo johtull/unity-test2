@@ -5,7 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Cast Net
-  - StaticResourceFishing
+  - Item
   layers:
   - Default
   - TransparentFX

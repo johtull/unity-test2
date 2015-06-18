@@ -84,13 +84,30 @@ public class PlayerControl : MonoBehaviour {
 				if(targetLook.tag.Contains("StaticResource")) {
 					string mySkillName = targetLook.tag.Substring(14);
 					print("Resource Clicked: " + targetLook.name);
-					print("test: " + ((Skill)Globals.skills[mySkillName]).test());
+
+					//print("test: " + ((Skill)Globals.skills[mySkillName]).test());
 					//print("Your level: " + ((Skill)Globals.skills[mySkillName]).getLevel());
 					//print("Spot level: " + ((Skill)Globals.skills[mySkillName]).getSpotLevel(targetLook.name));
 					//print("canUse: " + ((Skill)Globals.skills[mySkillName]).canUse(targetLook.name));
 				}
+				switch(targetLook.tag) {
+					//TODO: pickup item based on player location
+					case "Item":
+						print("Item Clicked: " + targetLook.name);
+						Item myNewItem = Globals.getItemByName(targetLook.name);
+						print("Item Description: " + myNewItem.Description);
+						Globals.backpack.addItem(myNewItem);
+						Destroy(targetLook);
+						print ("backpack: " + Globals.backpack.ToString());
+						break;
+					default:
+						break;
+				}
 				
 			}
+		}
+		if (Input.GetKey (KeyCode.B)) {
+			//TODO: open backpack
 		}
 
 

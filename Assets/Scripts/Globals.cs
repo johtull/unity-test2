@@ -8,11 +8,12 @@ using System.IO;
 public class Globals : MonoBehaviour {
 	
 	public static Hashtable skills;
+	public static Container backpack;
 
 	// Use this for initialization
 	void Start () {
 		if (!initDB ()) {
-			print ("DB ERROR");
+			print ("DB CONNECTION ERROR");
 		}
 
 		Skill skillFishing = new Skill (500, "fishing");
@@ -21,6 +22,8 @@ public class Globals : MonoBehaviour {
 		//add all skills to map
 		skills = new Hashtable ();
 		skills.Add ("Fishing", skillFishing);
+
+		backpack = new Container();
 
 	}
 	
@@ -31,34 +34,72 @@ public class Globals : MonoBehaviour {
 
 	// ESTABLISH DB CONNECTION
 	private static SqliteConnection sql_con;
-	//public string sql_db = "URI=Data Source=bt-test.db;Version=3;New=False;Compress=True;";
+	//public string sql_db = "URI=Data Source=Assets/bt-test.db;Version=3;New=False;Compress=True;";
 	private string sql_db = "URI=file:Assets/bt-test.db";
 
 	private bool initDB() {
-		//print (
-		print("current directory: " + Environment.CurrentDirectory);
+		//print("current directory: " + Environment.CurrentDirectory);
 		try{
 			sql_con = new SqliteConnection(sql_db);
 			sql_con.Open();
 		}catch {
-			print ("something went wrong");
+			return false;
 		}
-		print ("state: " + sql_con.State.ToString ());
-		print ("WE DID IT BOYS");
 		return true;
 	}
+
 	//http://forum.unity3d.com/threads/tutorial-how-to-integrate-sqlite-in-c.192282/
-	public static object select(string table, int id) {
+	public static Item getItemById(int id) {
 		IDbCommand sql_cmd = sql_con.CreateCommand ();
-		sql_cmd.CommandText = "select * FROM " + table + " WHERE id=" + id + ";";
+		sql_cmd.CommandText = "select * FROM items WHERE id=" + id + ";";
 		IDataReader sql_reader = sql_cmd.ExecuteReader ();
+		Item myItem = null;
 		while (sql_reader.Read()) {
-			print ("name: " + sql_reader["name"]);
+			myItem = new Item(int.Parse(sql_reader["id"].ToString()), sql_reader["name"].ToString(),
+			                  sql_reader["description"].ToString(), int.Parse(sql_reader["use_level"].ToString()),
+			                  int.Parse(sql_reader["weight"].ToString()), bool.Parse(sql_reader["equippable"].ToString()), bool.Parse(sql_reader["stackable"].ToString()),
+			                  int.Parse(sql_reader["base_damage"].ToString()), int.Parse(sql_reader["base_price"].ToString()),
+			                  int.Parse(sql_reader["quest"].ToString()), sql_reader["icon"].ToString(),
+			                  sql_reader["model"].ToString());
+			/*print ("id: " + myItem.Id);
+			print ("name: " + myItem.Iname);
+			print ("description: " + myItem.Description);
+			print ("weight: " + myItem.Weight);
+			print ("equippable: " + myItem.Equippable);
+			print ("base_damage: " + myItem.Base_damage);
+			print ("base_price: " + myItem.Base_price);
+			print ("quest: " + myItem.Quest);
+			print ("icon: " + myItem.Icon);
+			print ("model: " + myItem.Model);*/
 		}
-		//SqliteCommand _dbcm=_dbc.CreateCommand();
-		//_dbcm.CommandText="SELECT * FROM items WHERE id=" + id + ";";
-		//IDataReader _dbr=_dbcm.ExecuteReader();
-		//print ("break");
-		return 5;
+		print("myItem: " + myItem.ToString ());
+		return myItem;
+	}
+
+	public static Item getItemByName(string n) {
+		IDbCommand sql_cmd = sql_con.CreateCommand ();
+		sql_cmd.CommandText = "select * FROM items WHERE name='" + n + "';";
+		IDataReader sql_reader = sql_cmd.ExecuteReader ();
+		Item myItem = null;
+		while (sql_reader.Read()) {
+			myItem = new Item(int.Parse(sql_reader["id"].ToString()), sql_reader["name"].ToString(),
+			                  sql_reader["description"].ToString(), int.Parse(sql_reader["use_level"].ToString()),
+			                  int.Parse(sql_reader["weight"].ToString()), bool.Parse(sql_reader["equippable"].ToString()), bool.Parse(sql_reader["stackable"].ToString()),
+                              int.Parse(sql_reader["base_damage"].ToString()), int.Parse(sql_reader["base_price"].ToString()),
+                              int.Parse(sql_reader["quest"].ToString()), sql_reader["icon"].ToString(),
+                              sql_reader["model"].ToString());
+			/*print ("id: " + myItem.Id);
+			print ("name: " + myItem.Iname);
+			print ("description: " + myItem.Description);
+			print ("weight: " + myItem.Weight);
+			print ("equippable: " + myItem.Equippable);
+			print ("base_damage: " + myItem.Base_damage);
+			print ("base_price: " + myItem.Base_price);
+			print ("quest: " + myItem.Quest);
+			print ("icon: " + myItem.Icon);
+			print ("model: " + myItem.Model);*/
+		}
+		
+		return myItem;
 	}
 }
