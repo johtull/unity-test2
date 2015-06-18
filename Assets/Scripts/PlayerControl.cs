@@ -12,6 +12,7 @@ public class PlayerControl : MonoBehaviour {
 	public bool strafe = false;
 	public bool running = false;
 	public float turnSpeed = 180.0F;
+	public bool swimming = false;
 
 	private Vector3 moveDirection = Vector3.zero;
 	private Vector3 crouch = Vector3.zero;
@@ -20,11 +21,12 @@ public class PlayerControl : MonoBehaviour {
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
 		//print (gameMode);
+		
 
 		if(running)
-			speed = 15;
+			speed = 25;
 		else
-			speed = 6;
+			speed = 15;
 
 		if(Input.GetKeyDown("z") && !running)
 			running = true;
@@ -55,25 +57,46 @@ public class PlayerControl : MonoBehaviour {
 
 			moveDirection = transform.TransformDirection(moveDirection);
 			moveDirection *= speed;
-			if (Input.GetButtonDown("NewJump"))
+			if (Input.GetButtonDown("NewJump") && !swimming)
 				moveDirection.y = jumpSpeed;
 			jumping2 = false;
 		}
 
 		else{
 			
-			if (Input.GetButtonDown("NewJump") && !jumping2)
+			if (Input.GetButtonDown("NewJump") && !jumping2 && !swimming)
 			{
 				moveDirection = new Vector3(Input.GetAxis("NewHor"), 0, Input.GetAxis("NewVert"));
 				moveDirection = transform.TransformDirection(moveDirection);
 				moveDirection *= speed;
 				moveDirection.y = jumpSpeed;
+				if(!swimming)
 				jumping2 = true;
 			}
 			
 		}
+
+		if(swimming)
+		{
+			speed = 15;
+
+			//moveDirection = new Vector3(0, 0, Input.GetAxis("NewVert"));
+			//moveDirection = transform.TransformDirection(moveDirection);
+		//	moveDirection *= speed;
+			if (Input.GetButton("NewJump"))
+			{
+				moveDirection = new Vector3(Input.GetAxis("NewHor"), 0, Input.GetAxis("NewVert"));
+				moveDirection = transform.TransformDirection(moveDirection);
+				moveDirection *= speed;
+				moveDirection.y = 10f;
+
+			}
+			
+		}
+
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
+	
 
 
 		if(Input.GetMouseButtonDown(0))	{
@@ -111,5 +134,24 @@ public class PlayerControl : MonoBehaviour {
 		}
 
 
+	}
+	void OnTriggerEnter(Collider other) {
+		
+		//The Pool
+		if (other.gameObject.tag == "Water")
+		{
+			swimming = true;
+			gravity = 30f;
+		}
+	}
+
+	void OnTriggerExit(Collider other) {
+		
+		//The Pool
+		if (other.gameObject.tag == "Water")
+		{
+			swimming = false;
+			gravity = 200f;
+		}
 	}
 }

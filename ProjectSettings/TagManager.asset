@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Cast Net
   - Item
+  - StaticResourceFishing
+  - Water
   layers:
   - Default
   - TransparentFX
