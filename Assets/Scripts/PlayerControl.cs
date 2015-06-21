@@ -127,7 +127,7 @@ public class PlayerControl : MonoBehaviour {
 				if(targetLook.tag.Contains("StaticResource")) {
 					string mySkillName = targetLook.tag.Substring(14);
 					print("Resource Clicked: " + targetLook.name);
-
+					
 					//print("test: " + ((Skill)Globals.skills[mySkillName]).test());
 					//print("Your level: " + ((Skill)Globals.skills[mySkillName]).getLevel());
 					//print("Spot level: " + ((Skill)Globals.skills[mySkillName]).getSpotLevel(targetLook.name));
@@ -135,22 +135,67 @@ public class PlayerControl : MonoBehaviour {
 				}
 				switch(targetLook.tag) {
 					//TODO: pickup item based on player location
-					case "Item":
-						print("Item Clicked: " + targetLook.name);
-						Item myNewItem = Globals.getItemByName(targetLook.name);
+				case "Item0"://can pickup
+					print("Item Clicked: " + targetLook.name);
+					WorldItem worldItem = targetLook.GetComponent("WorldItem") as WorldItem;
+					Item myNewItem = worldItem.wItem;
+					try {
+						//if the worldItem is null, grab from DB
+						if(myNewItem == null) {
+							string targetName = targetLook.name;
+							int targetQuanIndexStart = targetName.IndexOf("(") + 1;
+							//if contains quantity, parse out
+							if(targetQuanIndexStart > 0) {
+								int targetQuan = int.Parse(targetName.Substring(targetQuanIndexStart, (targetName.Length - targetQuanIndexStart - 1)));
+								myNewItem = Globals.getItemByName(targetName.Substring(0, targetQuanIndexStart - 2));
+								myNewItem.Quantity = targetQuan;
+								//else, grab name
+							}else {
+								myNewItem = Globals.getItemByName(targetName);
+							}
+						}
 						print("Item Description: " + myNewItem.Description);
-						Globals.backpack.addItem(myNewItem);
+						//if backpack already has item, update quantity
+						int hasItemIndex = Globals.backpack.hasItem(myNewItem);
+						if(hasItemIndex > -1) {
+							if(Globals.backpack.getItem(hasItemIndex).Stackable) {
+								Globals.backpack.addQuantity(hasItemIndex, 1);
+							}else {
+								Globals.backpack.addItem(myNewItem);
+							}
+							//else, add new item
+						}else {
+							Globals.backpack.addItem(myNewItem);
+						}
+						//remove from scene
 						Destroy(targetLook);
-						print ("backpack: " + Globals.backpack.ToString());
-						break;
-					default:
-						break;
+					}catch(System.Exception) {
+						print ("Invalid item.");
+					}
+					break;
+				case "Item1"://cannot pickup
+					print ("You cannot pick up " + targetLook.name + ".");
+					break;
+				default:
+					break;
 				}
 				
 			}
 		}
+		
 		if (Input.GetKey (KeyCode.B)) {
 			//TODO: open backpack
+			Globals.backpack.print();
+		}
+		if (Input.GetKey (KeyCode.G)) {
+			//TODO: drop first item
+			//if backpack is not empty, drop first item
+			if(!Globals.backpack.isEmpty()) {
+				Globals.backpack.getItem(0);
+				//instantiate item in WorldItem applied to scene object...?
+				//help
+				//pls
+			}
 		}
 
 

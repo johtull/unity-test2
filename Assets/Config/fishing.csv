@@ -1,8 +1,10 @@
-Cast Net,2
-Cage Fish,4
-Angling Spot,8
-Spearfishing,16
-Boat Angling,32
-Boat Dredging,43
-Boat Trawling,57
-Whaling,64
+name,level to use,max success level,reset timer max,things you can catch (delimited by 
+Beachcomb,0,5,5,shoe@2:sheckels@7:clam@2:sand@10:comb@1:mussels@4:whale@1
+Cast Net,2,12,10,shrimp@3:crab@3:seaweed@5:oyster@1
+Cage Fish,4,19,10,crayfish@3:lobster@1
+Angling Spot,8,29,25,trout@1:salmon@1
+Spearfishing,16,37,60,tuna@1
+Boat Angling,32,49,120,tuna@1
+Boat Dredging,43,53,30,shoe@50:
+Boat Trawling,57,62,240,mackerel@20
+Whaling,64,65,604800,whale@1

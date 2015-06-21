@@ -204,4 +204,7 @@ public class Item : MonoBehaviour {
 			quantity = value;
 		}
 	}
+	public void addQuantity(int i) {
+		quantity += i;
+	}
 }

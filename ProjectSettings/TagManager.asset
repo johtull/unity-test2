@@ -5,10 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Cast Net
-  - Item
   - StaticResourceFishing
   - Water
   - ClimbZone
+  - Item0
+  - Item1
   layers:
   - Default
   - TransparentFX
