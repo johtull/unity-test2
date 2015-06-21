@@ -13,6 +13,7 @@ public class PlayerControl : MonoBehaviour {
 	public bool running = false;
 	public float turnSpeed = 180.0F;
 	public bool swimming = false;
+	public bool climbing = false;
 
 	private Vector3 moveDirection = Vector3.zero;
 	private Vector3 crouch = Vector3.zero;
@@ -64,7 +65,7 @@ public class PlayerControl : MonoBehaviour {
 
 		else{
 			
-			if (Input.GetButtonDown("NewJump") && !jumping2 && !swimming)
+			if (Input.GetButtonDown("NewJump") && !jumping2 && !swimming && !climbing)
 			{
 				moveDirection = new Vector3(Input.GetAxis("NewHor"), 0, Input.GetAxis("NewVert"));
 				moveDirection = transform.TransformDirection(moveDirection);
@@ -85,15 +86,34 @@ public class PlayerControl : MonoBehaviour {
 		//	moveDirection *= speed;
 			if (Input.GetButton("NewJump"))
 			{
-				moveDirection = new Vector3(Input.GetAxis("NewHor"), 0, Input.GetAxis("NewVert"));
+				moveDirection = new Vector3(Input.GetAxis("NewHor"), 5, Input.GetAxis("NewVert"));
 				moveDirection = transform.TransformDirection(moveDirection);
 				moveDirection *= speed;
-				moveDirection.y = 10f;
+				moveDirection.y = 15f;
 
 			}
 			
 		}
 
+		if(climbing)
+		{
+			if(!controller.isGrounded)
+			moveDirection = new Vector3(0, Input.GetAxis("NewVert")*50, 0);
+			if(controller.isGrounded && Input.GetAxis("NewVert") > 0)
+			moveDirection = new Vector3(0, 3, 0);
+
+			if (Input.GetButton("NewJump"))
+			{
+			/*	moveDirection = new Vector3(Input.GetAxis("NewHor"), 0, Input.GetAxis("NewVert"));
+				moveDirection = transform.TransformDirection(moveDirection);
+				moveDirection *= speed;
+				moveDirection.y = 10f;*/
+				
+			}
+			
+		}
+
+		if(!climbing)
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
 	
@@ -140,8 +160,14 @@ public class PlayerControl : MonoBehaviour {
 		//The Pool
 		if (other.gameObject.tag == "Water")
 		{
+			moveDirection.y = moveDirection.y/5;
 			swimming = true;
 			gravity = 30f;
+		}
+
+		if (other.gameObject.tag == "ClimbZone")
+		{
+			climbing = true;
 		}
 	}
 
@@ -152,6 +178,13 @@ public class PlayerControl : MonoBehaviour {
 		{
 			swimming = false;
 			gravity = 200f;
+		}
+
+		if (other.gameObject.tag == "ClimbZone")
+		{
+			climbing = false;
+			moveDirection = new Vector3(Input.GetAxis("NewHor")*speed, 35, Input.GetAxis("NewVert")*speed);
+			moveDirection = transform.TransformDirection(moveDirection);
 		}
 	}
 }
