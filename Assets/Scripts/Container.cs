@@ -17,6 +17,10 @@ public class Container : MonoBehaviour {
 	public void addItem(Item i) {
 		myItems.Add(i);
 	}
+	public void addItem(Item i, int quantity) {
+		i.Quantity = quantity;
+		myItems.Add(i);
+	}
 	public void removeItem(int index) {
 		myItems.RemoveAt(index);
 	}
@@ -54,7 +58,7 @@ public class Container : MonoBehaviour {
 	}
 	public void print() {
 		for (int i = 0; i < myItems.Count; ++i) {
-			print ("Item " + i + ": " + getItemName(i) + "(" + getItemQuantity(i) + ")");
+			print ("Item " + i + ": " + getItemName(i) + " (" + getItemQuantity(i) + ")");
 		}
 	}
 }

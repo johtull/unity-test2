@@ -139,34 +139,54 @@ public class PlayerControl : MonoBehaviour {
 					print("Item Clicked: " + targetLook.name);
 					WorldItem worldItem = targetLook.GetComponent("WorldItem") as WorldItem;
 					Item myNewItem = worldItem.wItem;
+					//TODO: move to Backpack class
 					try {
+						string targetName = targetLook.name;
+						//format: "Item (10)"
+						int targetQuanIndexStart = targetName.IndexOf("(") + 1;
+						int targetQuan = 0;
+						if(targetQuanIndexStart > 0) {
+							targetQuan = int.Parse(targetName.Substring(targetQuanIndexStart, (targetName.Length - targetQuanIndexStart - 1)));
+						}
 						//if the worldItem is null, grab from DB
 						if(myNewItem == null) {
-							string targetName = targetLook.name;
-							int targetQuanIndexStart = targetName.IndexOf("(") + 1;
 							//if contains quantity, parse out
-							if(targetQuanIndexStart > 0) {
-								int targetQuan = int.Parse(targetName.Substring(targetQuanIndexStart, (targetName.Length - targetQuanIndexStart - 1)));
+							if(targetQuan > 0) {
+								//int targetQuan = int.Parse(targetName.Substring(targetQuanIndexStart, (targetName.Length - targetQuanIndexStart - 1)));
 								myNewItem = Globals.getItemByName(targetName.Substring(0, targetQuanIndexStart - 2));
 								myNewItem.Quantity = targetQuan;
-								//else, grab name
+								//if backpack already has item, update quantity
+								int hasItemIndex = Globals.backpack.hasItem(myNewItem);
+								if(hasItemIndex > -1) {
+									if(Globals.backpack.getItem(hasItemIndex).Stackable) {
+										Globals.backpack.addQuantity(hasItemIndex, targetQuan);
+									}else {
+										Globals.backpack.addItem(myNewItem);
+									}
+								//else, add new item
+								}else {
+									Globals.backpack.addItem(myNewItem);
+								}
+
+							//else, grab by name, add to backpack
 							}else {
 								myNewItem = Globals.getItemByName(targetName);
+								//if backpack already has item, update quantity
+								int hasItemIndex = Globals.backpack.hasItem(myNewItem);
+								if(hasItemIndex > -1) {
+									if(Globals.backpack.getItem(hasItemIndex).Stackable) {
+										Globals.backpack.addQuantity(hasItemIndex, 1);
+									}else {
+										Globals.backpack.addItem(myNewItem);
+									}
+									//else, add new item
+								}else {
+									Globals.backpack.addItem(myNewItem);
+								}
 							}
 						}
 						print("Item Description: " + myNewItem.Description);
-						//if backpack already has item, update quantity
-						int hasItemIndex = Globals.backpack.hasItem(myNewItem);
-						if(hasItemIndex > -1) {
-							if(Globals.backpack.getItem(hasItemIndex).Stackable) {
-								Globals.backpack.addQuantity(hasItemIndex, 1);
-							}else {
-								Globals.backpack.addItem(myNewItem);
-							}
-							//else, add new item
-						}else {
-							Globals.backpack.addItem(myNewItem);
-						}
+
 						//remove from scene
 						Destroy(targetLook);
 					}catch(System.Exception) {
