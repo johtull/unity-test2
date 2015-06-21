@@ -150,8 +150,8 @@ public class PlayerControl : MonoBehaviour {
 						}
 						//if the worldItem is null, grab from DB
 						if(myNewItem == null) {
-							//if contains quantity, parse out
-							if(targetQuan > 0) {
+							//if contains quantity != 0, parse out
+							if(targetQuan != 0) {
 								//int targetQuan = int.Parse(targetName.Substring(targetQuanIndexStart, (targetName.Length - targetQuanIndexStart - 1)));
 								myNewItem = Globals.getItemByName(targetName.Substring(0, targetQuanIndexStart - 2));
 								myNewItem.Quantity = targetQuan;
@@ -159,6 +159,7 @@ public class PlayerControl : MonoBehaviour {
 								int hasItemIndex = Globals.backpack.hasItem(myNewItem);
 								if(hasItemIndex > -1) {
 									if(Globals.backpack.getItem(hasItemIndex).Stackable) {
+										//THIS WILL ADD NEGATIVE
 										Globals.backpack.addQuantity(hasItemIndex, targetQuan);
 									}else {
 										Globals.backpack.addItem(myNewItem);
