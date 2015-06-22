@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour {
 	public float turnSpeed = 180.0F;
 	public bool swimming = false;
 	public bool climbing = false;
+	public Transform toDrop;
 
 	private Vector3 moveDirection = Vector3.zero;
 	private Vector3 crouch = Vector3.zero;
@@ -208,12 +209,17 @@ public class PlayerControl : MonoBehaviour {
 			//TODO: open backpack
 			Globals.backpack.print();
 		}
-		if (Input.GetKey (KeyCode.G)) {
+		if (Input.GetKeyDown("g")) {
+			Vector3 placeLoc;
 			//TODO: drop first item
 			//if backpack is not empty, drop first item
 			if(!Globals.backpack.isEmpty()) {
 				Globals.backpack.getItem(0);
 				//instantiate item in WorldItem applied to scene object...?
+				placeLoc = transform.position +(transform.forward*5);
+				//placeLoc *= speed;
+				Instantiate(toDrop, placeLoc, Quaternion.identity);
+				print (placeLoc);
 				//help
 				//pls
 			}
