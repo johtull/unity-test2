@@ -27,7 +27,11 @@ public class Container : MonoBehaviour {
 
 	//returns -1 if not found
 	public int hasItem(Item i) {
-		return myItems.IndexOf (i);
+		if (isEmpty ()) {
+			return -1;
+		} else {
+			return myItems.IndexOf(i);
+		}
 	}
 	public bool isEmpty() {
 		return myItems.Count < 1;

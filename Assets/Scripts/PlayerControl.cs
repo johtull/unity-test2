@@ -14,7 +14,7 @@ public class PlayerControl : MonoBehaviour {
 	public float turnSpeed = 180.0F;
 	public bool swimming = false;
 	public bool climbing = false;
-	public Transform toDrop;
+	public Transform toDrop = null;
 
 	private Vector3 moveDirection = Vector3.zero;
 	private Vector3 crouch = Vector3.zero;
@@ -140,60 +140,18 @@ public class PlayerControl : MonoBehaviour {
 					print("Item Clicked: " + targetLook.name);
 					WorldItem worldItem = targetLook.GetComponent("WorldItem") as WorldItem;
 					Item myNewItem = worldItem.wItem;
-					//TODO: move to Backpack class
-					try {
-						string targetName = targetLook.name;
-						//format: "Item (10)"
-						int targetQuanIndexStart = targetName.IndexOf("(") + 1;
-						int targetQuan = 0;
-						if(targetQuanIndexStart > 0) {
-							targetQuan = int.Parse(targetName.Substring(targetQuanIndexStart, (targetName.Length - targetQuanIndexStart - 1)));
+					try{
+						//if the worldItem exists, pull from it
+						if(myNewItem.Iname != null) {
+							Globals.myBackpack.addBackpackItem(myNewItem);
 						}
-						//if the worldItem is null, grab from DB
-						if(myNewItem == null) {
-							//if contains quantity != 0, parse out
-							if(targetQuan != 0) {
-								//int targetQuan = int.Parse(targetName.Substring(targetQuanIndexStart, (targetName.Length - targetQuanIndexStart - 1)));
-								myNewItem = Globals.getItemByName(targetName.Substring(0, targetQuanIndexStart - 2));
-								myNewItem.Quantity = targetQuan;
-								//if backpack already has item, update quantity
-								int hasItemIndex = Globals.backpack.hasItem(myNewItem);
-								if(hasItemIndex > -1) {
-									if(Globals.backpack.getItem(hasItemIndex).Stackable) {
-										//THIS WILL ADD NEGATIVE
-										Globals.backpack.addQuantity(hasItemIndex, targetQuan);
-									}else {
-										Globals.backpack.addItem(myNewItem);
-									}
-								//else, add new item
-								}else {
-									Globals.backpack.addItem(myNewItem);
-								}
-
-							//else, grab by name, add to backpack
-							}else {
-								myNewItem = Globals.getItemByName(targetName);
-								//if backpack already has item, update quantity
-								int hasItemIndex = Globals.backpack.hasItem(myNewItem);
-								if(hasItemIndex > -1) {
-									if(Globals.backpack.getItem(hasItemIndex).Stackable) {
-										Globals.backpack.addQuantity(hasItemIndex, 1);
-									}else {
-										Globals.backpack.addItem(myNewItem);
-									}
-									//else, add new item
-								}else {
-									Globals.backpack.addItem(myNewItem);
-								}
-							}
-						}
-						print("Item Description: " + myNewItem.Description);
-
-						//remove from scene
-						Destroy(targetLook);
 					}catch(System.Exception) {
-						print ("Invalid item.");
+						//exception, worldItem does not exist
+						Globals.myBackpack.addBackpackItem(targetLook.name);
 					}
+					//remove item from scene
+					//if invalid item, remove from stage anyway
+					Destroy(targetLook);
 					break;
 				case "Item1"://cannot pickup
 					print ("You cannot pick up " + targetLook.name + ".");
@@ -207,21 +165,24 @@ public class PlayerControl : MonoBehaviour {
 		
 		if (Input.GetKey (KeyCode.B)) {
 			//TODO: open backpack
-			Globals.backpack.print();
+			Globals.myBackpack.print();
 		}
 		if (Input.GetKeyDown("g")) {
 			Vector3 placeLoc;
 			//TODO: drop first item
 			//if backpack is not empty, drop first item
-			if(!Globals.backpack.isEmpty()) {
-				Globals.backpack.getItem(0);
+			if(!Globals.myBackpack.isEmpty()) {
+				//Globals.myBackpack.getItem(0);
 				//instantiate item in WorldItem applied to scene object...?
+				toDrop.name = Globals.myBackpack.getItem(0).Iname + " (" + Globals.myBackpack.getItem(0).Quantity + ")";
+				(toDrop.GetComponent("WorldItem") as WorldItem).wItem = Globals.myBackpack.getItem(0);
 				placeLoc = transform.position +(transform.forward*5);
 				//placeLoc *= speed;
 				Instantiate(toDrop, placeLoc, Quaternion.identity);
 				print (placeLoc);
-				//help
-				//pls
+
+				//remove from inventory
+				Globals.myBackpack.removeItem(0);
 			}
 		}
 

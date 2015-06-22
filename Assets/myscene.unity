@@ -1339,7 +1339,7 @@ MonoBehaviour:
   turnSpeed: 180
   swimming: 0
   climbing: 0
-  toDrop: {fileID: 107892, guid: 98696728276bba047ba1ffc46bd22f9d, type: 2}
+  toDrop: {fileID: 494826, guid: 98696728276bba047ba1ffc46bd22f9d, type: 2}
 --- !u!114 &1602450474
 MonoBehaviour:
   m_ObjectHideFlags: 0

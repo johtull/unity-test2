@@ -65,7 +65,26 @@ public class Item : MonoBehaviour {
 
 	}
 
-
+	//copy constructor
+	public Item(Item i) {
+		this.id = i.Id;
+		this.iname = i.Iname;
+		this.description = i.Description;
+		this.use_level = i.Use_level;
+		this.weight = i.Weight;
+		this.equippable = i.Equippable;
+		this.stackable = i.Stackable;
+		this.base_damage = i.Base_damage;
+		this.base_price = i.Base_price;
+		this.quest = i.Quest;
+		this.icon = i.Icon;
+		this.model = i.Model;
+		
+		this.durability = i.Durability;
+		this.quality = i.Quality;
+		this.quantity = i.Quantity;
+	}
+	
 
 
 	public int Id {
@@ -206,5 +225,14 @@ public class Item : MonoBehaviour {
 	}
 	public void addQuantity(int i) {
 		quantity += i;
+	}
+
+	public void print() {
+		print ("id: " + id + "\tiname: " + iname + "\tdescription: " + description +
+			"\tuse_level: " + use_level + "\tweight: " + weight + "\tequippable: " +
+			equippable + "\tstackable: " + stackable + "\tbase_damage: " + base_damage +
+			"\tbase_price: " + base_price + "\tquest: " + quest + "\ticon: " + icon +
+			"\tmodel: " + model + "\tdurability: " + durability + "\tquality: " + quality +
+			"\tquantity: " + quantity);
 	}
 }

@@ -8,7 +8,8 @@ using System.IO;
 public class Globals : MonoBehaviour {
 	
 	public static Hashtable skills;
-	public static Container backpack;
+	//public static Container backpack;
+	public static Backpack myBackpack;
 
 	// Use this for initialization
 	void Start () {
@@ -23,7 +24,8 @@ public class Globals : MonoBehaviour {
 		skills = new Hashtable ();
 		skills.Add ("Fishing", skillFishing);
 
-		backpack = new Container();
+		//backpack = new Container ();
+		myBackpack = new Backpack ();
 
 	}
 	
@@ -61,16 +63,6 @@ public class Globals : MonoBehaviour {
 			                  int.Parse(sql_reader["base_damage"].ToString()), int.Parse(sql_reader["base_price"].ToString()),
 			                  int.Parse(sql_reader["quest"].ToString()), sql_reader["icon"].ToString(),
 			                  sql_reader["model"].ToString());
-			/*print ("id: " + myItem.Id);
-			print ("name: " + myItem.Iname);
-			print ("description: " + myItem.Description);
-			print ("weight: " + myItem.Weight);
-			print ("equippable: " + myItem.Equippable);
-			print ("base_damage: " + myItem.Base_damage);
-			print ("base_price: " + myItem.Base_price);
-			print ("quest: " + myItem.Quest);
-			print ("icon: " + myItem.Icon);
-			print ("model: " + myItem.Model);*/
 		}
 		print("myItem: " + myItem.ToString ());
 		return myItem;
@@ -88,16 +80,6 @@ public class Globals : MonoBehaviour {
                               int.Parse(sql_reader["base_damage"].ToString()), int.Parse(sql_reader["base_price"].ToString()),
                               int.Parse(sql_reader["quest"].ToString()), sql_reader["icon"].ToString(),
                               sql_reader["model"].ToString());
-			/*print ("id: " + myItem.Id);
-			print ("name: " + myItem.Iname);
-			print ("description: " + myItem.Description);
-			print ("weight: " + myItem.Weight);
-			print ("equippable: " + myItem.Equippable);
-			print ("base_damage: " + myItem.Base_damage);
-			print ("base_price: " + myItem.Base_price);
-			print ("quest: " + myItem.Quest);
-			print ("icon: " + myItem.Icon);
-			print ("model: " + myItem.Model);*/
 		}
 		
 		return myItem;
