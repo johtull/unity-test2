@@ -169,16 +169,20 @@ public class PlayerControl : MonoBehaviour {
 		}
 		if (Input.GetKeyDown("g")) {
 			Vector3 placeLoc;
+			Transform placedObject;
+
 			//TODO: drop first item
 			//if backpack is not empty, drop first item
 			if(!Globals.myBackpack.isEmpty()) {
 				//Globals.myBackpack.getItem(0);
 				//instantiate item in WorldItem applied to scene object...?
-				toDrop.name = Globals.myBackpack.getItem(0).Iname + " (" + Globals.myBackpack.getItem(0).Quantity + ")";
+				//toDrop.name = Globals.myBackpack.getItem(0).Iname + " (" + Globals.myBackpack.getItem(0).Quantity + ")";
 				(toDrop.GetComponent("WorldItem") as WorldItem).wItem = Globals.myBackpack.getItem(0);
 				placeLoc = transform.position +(transform.forward*5);
 				//placeLoc *= speed;
-				Instantiate(toDrop, placeLoc, Quaternion.identity);
+				placedObject = Instantiate(toDrop, placeLoc, Quaternion.identity) as Transform;
+				//GameObject placedObject = (GameObject)Instantiate(toDrop, placeLoc, Quaternion.identity);
+				placedObject.name = Globals.myBackpack.getItem(0).Iname + " (" + Globals.myBackpack.getItem(0).Quantity + ")";
 				print (placeLoc);
 
 				//remove from inventory
