@@ -13,6 +13,8 @@ public class Globals : MonoBehaviour {
 	public static Backpack myBackpack;
 
 	public static Canvas canvas;
+	//this is just here to test toggling the canvas in the inspector
+	public bool on = true;
 
 	// Use this for initialization
 	void Start () {
@@ -33,7 +35,8 @@ public class Globals : MonoBehaviour {
 
 		//backpack = new Container ();
 		myBackpack = new Backpack ();
-
+		//This will stop working properly if we put in multiple canvases
+		canvas = (Canvas) FindObjectOfType(typeof(Canvas));
 		//canvas = GetComponent<Canvas> ();
 		//canvas.enabled = false;
 
@@ -41,7 +44,7 @@ public class Globals : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		canvas.enabled = on;
 	}
 
 	// ESTABLISH DB CONNECTION
