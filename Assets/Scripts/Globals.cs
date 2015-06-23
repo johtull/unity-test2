@@ -15,6 +15,10 @@ public class Globals : MonoBehaviour {
 	void Start () {
 		if (!initDB ()) {
 			print ("DB CONNECTION ERROR");
+			//TODO: display error popup, gracefully exit
+			//Does this stop the application?
+			//Application.Quit();
+			//Debug.Break();
 		}
 
 		Skill skillFishing = new Skill (500, "fishing");

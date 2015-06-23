@@ -2,22 +2,41 @@
 using System.Collections;
 
 public class PlayerControl : MonoBehaviour {
-	public float speed = 6.0F;
-	public float jumpSpeed = 100.0F;
-	public float gravity = 200.0F;
+	public float speed;
+	public float jumpSpeed;
+	public float gravity;
 	public LayerMask touchInputMask;
 
-	public bool jumping = false;
-	public bool jumping2 = false;
-	public bool strafe = false;
-	public bool running = false;
-	public float turnSpeed = 180.0F;
-	public bool swimming = false;
-	public bool climbing = false;
-	public Transform toDrop = null;
+	public bool jumping;
+	public bool jumping2;
+	public bool strafe;
+	public bool running;
+	public float turnSpeed;
+	public bool swimming;
+	public bool climbing;
 
-	private Vector3 moveDirection = Vector3.zero;
-	private Vector3 crouch = Vector3.zero;
+	private GameObject toDrop;
+	private Vector3 moveDirection;
+	private Vector3 crouch;
+
+	void Start() {
+		speed = 6.0F;
+		jumpSpeed = 100.0F;
+		gravity = 200.0F;
+		
+		jumping = false;
+		jumping2 = false;
+		strafe = false;
+		running = false;
+		turnSpeed = 180.0F;
+		swimming = false;
+		climbing = false;
+
+		moveDirection = Vector3.zero;
+		crouch = Vector3.zero;
+		toDrop = Resources.Load("BaseGenericItem", typeof(GameObject)) as GameObject;
+	}
+
 	void Update() {
 		CharacterController controller = GetComponent<CharacterController>();
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -169,21 +188,17 @@ public class PlayerControl : MonoBehaviour {
 		}
 		if (Input.GetKeyDown("g")) {
 			Vector3 placeLoc;
-			Transform placedObject;
+			GameObject placedObject;
 
-			//TODO: drop first item
 			//if backpack is not empty, drop first item
 			if(!Globals.myBackpack.isEmpty()) {
-				//Globals.myBackpack.getItem(0);
-				//instantiate item in WorldItem applied to scene object...?
-				//toDrop.name = Globals.myBackpack.getItem(0).Iname + " (" + Globals.myBackpack.getItem(0).Quantity + ")";
+				//set backpack item to GameObject's WorldItem
 				(toDrop.GetComponent("WorldItem") as WorldItem).wItem = Globals.myBackpack.getItem(0);
+				//place in front of the player
 				placeLoc = transform.position +(transform.forward*5);
-				//placeLoc *= speed;
-				placedObject = Instantiate(toDrop, placeLoc, Quaternion.identity) as Transform;
-				//GameObject placedObject = (GameObject)Instantiate(toDrop, placeLoc, Quaternion.identity);
+				placedObject = Instantiate(toDrop, placeLoc, Quaternion.identity) as GameObject;
+				//after item is placed, set the name -- will not append (clone)
 				placedObject.name = Globals.myBackpack.getItem(0).Iname + " (" + Globals.myBackpack.getItem(0).Quantity + ")";
-				print (placeLoc);
 
 				//remove from inventory
 				Globals.myBackpack.removeItem(0);

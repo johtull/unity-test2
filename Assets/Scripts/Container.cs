@@ -26,11 +26,18 @@ public class Container : MonoBehaviour {
 	}
 
 	//returns -1 if not found
-	public int hasItem(Item i) {
+	public int hasItem(string itemName) {
 		if (isEmpty ()) {
 			return -1;
 		} else {
-			return myItems.IndexOf(i);
+			for(int i = 0; i < myItems.Capacity; ++i) {
+				try{
+					if(myItems[i].Iname == itemName) {
+						return i;
+					}
+				}catch(System.Exception) {}
+			}
+			return -1;
 		}
 	}
 	public bool isEmpty() {

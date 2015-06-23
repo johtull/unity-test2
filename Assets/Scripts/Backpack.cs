@@ -29,9 +29,8 @@ public class Backpack : Container {
 				//grab item from db, update quantity
 				myNewItem = Globals.getItemByName(itemName.Substring(0, targetQuanIndexStart - 2));
 				myNewItem.Quantity = targetQuan;
-
 				//if backpack already has item, update quantity
-				int hasItemIndex = backpack.hasItem(myNewItem);
+				int hasItemIndex = backpack.hasItem(myNewItem.Iname);
 				if(hasItemIndex > -1) {
 					//if item is stackable, increment item quantity
 					if(backpack.getItem(hasItemIndex).Stackable) {
@@ -49,20 +48,22 @@ public class Backpack : Container {
 			//else, item contains no quantity in name - grab by name, add to backpack
 			}else {
 				myNewItem = Globals.getItemByName(itemName);
-				//if backpack already has item, update quantity
-				int hasItemIndex = backpack.hasItem(myNewItem);
-				if(hasItemIndex > -1) {
-					if(backpack.getItem(hasItemIndex).Stackable) {
-						backpack.addQuantity(hasItemIndex, 1);
+				if(myNewItem.Iname != null) {
+					//if backpack already has item, update quantity
+					int hasItemIndex = backpack.hasItem(myNewItem.Iname);
+					if(hasItemIndex > -1) {
+						if(backpack.getItem(hasItemIndex).Stackable) {
+							backpack.addQuantity(hasItemIndex, 1);
+						}else {
+							backpack.addItem(myNewItem);
+						}
+					//else, add new item
 					}else {
 						backpack.addItem(myNewItem);
 					}
-				//else, add new item
-				}else {
-					backpack.addItem(myNewItem);
 				}
 			}
-		}catch(System.Exception) {
+		}catch(System.Exception /*e*/) {
 			print ("Invalid item.");
 			//print (e);
 		}
@@ -70,20 +71,22 @@ public class Backpack : Container {
 
 
 	public void addBackpackItem(Item item) {
-		int hasItemIndex = backpack.hasItem(item);
-		if(hasItemIndex > -1) {
-			//if item is stackable, increment item quantity
-			if(backpack.getItem(hasItemIndex).Stackable) {
-				//THIS WILL ADD NEGATIVE
-				backpack.addQuantity(hasItemIndex, item.Quantity);
-			//if not stackable, add to inventory
+		try{
+			int hasItemIndex = backpack.hasItem(item.Iname);
+			if(hasItemIndex > -1) {
+				//if item is stackable, increment item quantity
+				if(backpack.getItem(hasItemIndex).Stackable) {
+					//THIS WILL ADD NEGATIVE
+					backpack.addQuantity(hasItemIndex, item.Quantity);
+				//if not stackable, add to inventory
+				}else {
+					backpack.addItem(item);
+				}
+			//else, add new item
 			}else {
 				backpack.addItem(item);
 			}
-		//else, add new item
-		}else {
-			backpack.addItem(item);
-		}
+		}catch(System.Exception) {}
 	}
 
 
