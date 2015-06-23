@@ -159,6 +159,9 @@ public class PlayerControl : MonoBehaviour {
 					print("Item Clicked: " + targetLook.name);
 					WorldItem worldItem = targetLook.GetComponent("WorldItem") as WorldItem;
 					Item myNewItem = worldItem.wItem;
+
+					//CHECK THE DISTANCE BETWEEN PLAYER AND CLICKED OBJECT
+					if(Vector3.Distance(transform.position, targetLook.transform.position) < 15){
 					try{
 						//if the worldItem exists, pull from it
 						if(myNewItem.Iname != null) {
@@ -171,7 +174,9 @@ public class PlayerControl : MonoBehaviour {
 					//remove item from scene
 					//if invalid item, remove from stage anyway
 					Destroy(targetLook);
+					}
 					break;
+					
 				case "Item1"://cannot pickup
 					print ("You cannot pick up " + targetLook.name + ".");
 					break;
