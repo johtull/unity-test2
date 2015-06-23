@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class PlayerControl : MonoBehaviour {
 	public float speed;
 	public float jumpSpeed;
@@ -19,6 +20,11 @@ public class PlayerControl : MonoBehaviour {
 	private Vector3 moveDirection;
 	private Vector3 crouch;
 
+
+	private System.DateTime lookCounterCurrent;
+	private System.DateTime lookCounterFuture;
+	private Transform lookObj;
+
 	void Start() {
 		speed = 6.0F;
 		jumpSpeed = 100.0F;
@@ -35,6 +41,8 @@ public class PlayerControl : MonoBehaviour {
 		moveDirection = Vector3.zero;
 		crouch = Vector3.zero;
 		toDrop = Resources.Load("BaseGenericItem", typeof(GameObject)) as GameObject;
+
+		lookObj = null;
 	}
 
 	void Update() {
@@ -43,7 +51,7 @@ public class PlayerControl : MonoBehaviour {
 		RaycastHit hit;
 		//print (gameMode);
 		
-
+		hoverLook();
 		if(running)
 			speed = 25;
 		else
@@ -244,4 +252,30 @@ public class PlayerControl : MonoBehaviour {
 			moveDirection = transform.TransformDirection(moveDirection);
 		}
 	}
+
+	//hover over object, displays info after a few seconds
+	void hoverLook(){
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hit;
+			
+		if(Physics.Raycast(ray,out hit, touchInputMask)) {
+
+			if(lookObj == null)
+				lookObj = hit.transform;
+
+		if(hit.transform != lookObj){
+				lookCounterCurrent = System.DateTime.UtcNow;
+				lookCounterFuture = lookCounterCurrent.AddSeconds(3);
+				lookObj = hit.transform;
+		}
+		else
+			{
+				if(lookCounterFuture <= System.DateTime.UtcNow)
+				print ("seeing:" + hit.transform.name);
+			}
+
+		}
+	}
 }
+
+
