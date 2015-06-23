@@ -10,6 +10,7 @@ TagManager:
   - ClimbZone
   - Item0
   - Item1
+  - Static
   layers:
   - Default
   - TransparentFX

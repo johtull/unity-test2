@@ -21,7 +21,6 @@ public class PlayerControl : MonoBehaviour {
 	private Vector3 crouch;
 
 
-	private System.DateTime lookCounterCurrent;
 	private System.DateTime lookCounterFuture;
 	private Transform lookObj;
 
@@ -260,18 +259,26 @@ public class PlayerControl : MonoBehaviour {
 			
 		if(Physics.Raycast(ray,out hit, touchInputMask)) {
 
-			if(lookObj == null)
+			//grab transform from object
+			if(lookObj == null) {
 				lookObj = hit.transform;
+			}
+			//if object is static, exit
+			if(lookObj.tag == "Static") {
+				lookObj = null;
+				return;
+			}
 
-		if(hit.transform != lookObj){
-				lookCounterCurrent = System.DateTime.UtcNow;
-				lookCounterFuture = lookCounterCurrent.AddSeconds(3);
-				lookObj = hit.transform;
-		}
-		else
-			{
-				if(lookCounterFuture <= System.DateTime.UtcNow)
-				print ("seeing:" + hit.transform.name);
+			//if object is new, register lookCounterFuture to current time + 3 seconds
+			if(hit.transform != lookObj) {
+					lookCounterFuture = System.DateTime.UtcNow.AddSeconds(3);
+					lookObj = hit.transform;
+			//else, you've been hovering over the same object
+			}else {
+				//if hovering for more than 3 seconds, display information
+				if(lookCounterFuture <= System.DateTime.UtcNow) {
+					print ("seeing:" + hit.transform.name);
+				}
 			}
 
 		}

@@ -4,12 +4,15 @@ using System.Data;
 using Mono.Data.SqliteClient;
 using System;
 using System.IO;
+using UnityEngine.UI;
 
 public class Globals : MonoBehaviour {
 	
 	public static Hashtable skills;
 	//public static Container backpack;
 	public static Backpack myBackpack;
+
+	public static Canvas canvas;
 
 	// Use this for initialization
 	void Start () {
@@ -30,6 +33,9 @@ public class Globals : MonoBehaviour {
 
 		//backpack = new Container ();
 		myBackpack = new Backpack ();
+
+		//canvas = GetComponent<Canvas> ();
+		//canvas.enabled = false;
 
 	}
 	
