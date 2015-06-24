@@ -23,6 +23,8 @@ public class PlayerControl : MonoBehaviour {
 	private System.DateTime lookCounterFuture;
 	private Transform lookObj;
 
+	public bool mouseHover = false;
+
 	void Start() {
 		speed = 6.0F;
 		jumpSpeed = 100.0F;
@@ -255,6 +257,8 @@ public class PlayerControl : MonoBehaviour {
 
 	//hover over object, displays info after a few seconds
 	void hoverLook(){
+		if (!mouseHover)
+			return;
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
 			

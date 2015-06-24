@@ -5,6 +5,7 @@ using Mono.Data.SqliteClient;
 using System;
 using System.IO;
 using UnityEngine.UI;
+//using Image = UnityEngine.UI.Image;
 
 public class Globals : MonoBehaviour {
 	
@@ -12,8 +13,9 @@ public class Globals : MonoBehaviour {
 	//public static Container backpack;
 	public static Backpack myBackpack;
 
-	public static Canvas canvas;
-	//this is just here to test toggling the canvas in the inspector
+	//TODO: change to private; only modify through methods?
+	public static GameObject playerUICanvas;
+	private static Hashtable playerUIImageMap;
 
 	// Use this for initialization
 	void Start () {
@@ -34,15 +36,25 @@ public class Globals : MonoBehaviour {
 
 		//backpack = new Container ();
 		myBackpack = new Backpack ();
-		//This will stop working properly if we put in multiple canvases
-		canvas = (Canvas) FindObjectOfType(typeof(Canvas));
-		Image myImage = canvas.GetComponentInChildren (typeof(Image)) as Image;
-		myImage.enabled = false;
+
+		//Instantiate player ui canvas
+		Instantiate(Resources.Load("PlayerUI", typeof(Canvas)));
+		//...reference the clone
+		playerUICanvas = GameObject.Find ("PlayerUI(Clone)") as GameObject;
+		//grab all images
+		Image[] playerUIImage = playerUICanvas.GetComponentsInChildren<Image>();
+		//map all images <name, Image>
+		playerUIImageMap = new Hashtable();
+		for(int i = 0; i < playerUIImage.Length; ++i) {
+			print (i + ": " + playerUIImage[i].name);
+			playerUIImageMap.Add(playerUIImage[i].name, playerUIImage[i]);
+
+		}
 	}
 
+	//enable/disable backpack image
 	public static void toggleBackpack() {
-		Image myImage = canvas.GetComponentInChildren (typeof(Image)) as Image;
-		myImage.enabled = !myImage.enabled;
+		(playerUIImageMap ["BackpackUI"] as Image).enabled = !(playerUIImageMap ["BackpackUI"] as Image).enabled;
 	}
 	
 	// Update is called once per frame
