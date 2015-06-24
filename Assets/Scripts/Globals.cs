@@ -14,7 +14,6 @@ public class Globals : MonoBehaviour {
 
 	public static Canvas canvas;
 	//this is just here to test toggling the canvas in the inspector
-	public bool on = true;
 
 	// Use this for initialization
 	void Start () {
@@ -37,14 +36,18 @@ public class Globals : MonoBehaviour {
 		myBackpack = new Backpack ();
 		//This will stop working properly if we put in multiple canvases
 		canvas = (Canvas) FindObjectOfType(typeof(Canvas));
-		//canvas = GetComponent<Canvas> ();
-		//canvas.enabled = false;
+		Image myImage = canvas.GetComponentInChildren (typeof(Image)) as Image;
+		myImage.enabled = false;
+	}
 
+	public static void toggleBackpack() {
+		Image myImage = canvas.GetComponentInChildren (typeof(Image)) as Image;
+		myImage.enabled = !myImage.enabled;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		canvas.enabled = on;
+
 	}
 
 	// ESTABLISH DB CONNECTION

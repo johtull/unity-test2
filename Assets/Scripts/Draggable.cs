@@ -8,6 +8,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
 	}
 
+	//TODO: add offset to mouse
 	public void OnDrag(PointerEventData eventData){
 		this.transform.position = eventData.position;
 	}

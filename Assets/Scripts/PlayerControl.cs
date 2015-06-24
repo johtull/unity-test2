@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 public class PlayerControl : MonoBehaviour {
 	public float speed;
 	public float jumpSpeed;
@@ -194,8 +193,10 @@ public class PlayerControl : MonoBehaviour {
 			}
 		}
 		
-		if (Input.GetKey (KeyCode.B)) {
+		if (Input.GetKeyDown (KeyCode.B)) {
 			//TODO: open backpack
+			//Globals.canvas
+			Globals.toggleBackpack();
 			Globals.myBackpack.print();
 		}
 		if (Input.GetKeyDown("g")) {
